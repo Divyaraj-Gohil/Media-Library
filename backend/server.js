@@ -36,7 +36,6 @@ app.get('/', (req, res) => {
     UserModel.find()
         .then(result => res.status(200).send(result))
         .catch(err => console.log(err))
-    console.log("data sent")
 })
 app.put('/update/:id', upload.single('image'), async (req, res) => {
     const old = await UserModel.findById({ _id: req.params.id })
@@ -59,7 +58,7 @@ app.delete('/delete/:id', async (req, res) => {
 
     }
 })
-
-app.listen(3000, () => {
-    console.log("server running")
+const port = process.env.PORT || 4000
+app.listen(port, () => {
+    console.log(`server running on ${port}`)
 })

@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Upload from './Upload';
 import Table from './Table';
-
-const BASE_URL = 'http://localhost:3000/'
 
 function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(BASE_URL);
+      const response = await axios.get('http://localhost:4000');
       setData(response.data);
     };
     fetchData();
   }, []);
 
   const handleDataChange = (newData) => {
+    toast.success('Upload Successfully')
     setData((prevData) => [...prevData, newData]);
   };
 
   const handleDataUpdate = (updatedData) => {
+    toast.success('Update Successfully')
     setData((prevData) => prevData.map((item) => item._id === updatedData._id ? updatedData : item))
   };
 
   const handleDataDelete = async (id) => {
     try {
+      toast.info('deleted')
       setData((prevData) => prevData.filter((item) => item._id !== id));
-      await axios.delete(`http://localhost:3000/delete/${id}`);
+      await axios.delete(`http://localhost:4000/delete/${id}`);
 
     } catch (error) {
       console.log(error)
@@ -36,6 +39,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer position="top-center" theme="dark" />
       <h1>CRUD App with Image Upload</h1>
       <Upload onAddData={handleDataChange} />
       <hr />

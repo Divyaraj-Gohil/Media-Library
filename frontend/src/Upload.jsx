@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const BASE_URL = 'http://localhost:3000/upload'; // Replace with your backend API URL
-
 const Upload = ({ onAddData }) => {
     const [name, setname] = useState('');
     const [detail, setdetail] = useState('');
@@ -24,8 +22,8 @@ const Upload = ({ onAddData }) => {
         if (image) {
             formData.append('image', image);
         }
-        try {
-            const response = await axios.post(BASE_URL, formData, {
+        try {//https://mern-image-upload-n1qj.onrender.com
+            const response = await axios.post('http://localhost:4000/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -58,35 +56,37 @@ const Upload = ({ onAddData }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='p-4'>
-            <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input className='mb-3'
-                    type="text"
-                    id="name"
-                    value={name}
-                    onChange={(e) => setname(e.target.value)}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="detail">Detail:</label>
-                <textarea
-                    id="detail"
-                    value={detail}
-                    onChange={(e) => setdetail(e.target.value)}
-                    rows="5"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="image">Image:</label>
-                <input type="file" className="mb-3" id="image" onChange={handleImageChange} />
-                {previewImage && (
-                    <img src={previewImage} alt="Preview" width="100" />
-                )}
-            </div>
-            <button type="submit" className='btn btn-primary'>Submit</button>
-        </form>
+        <>
+            <form onSubmit={handleSubmit} className='p-4'>
+                <div className="form-group">
+                    <label htmlFor="name">Name:</label>
+                    <input className='mb-3'
+                        type="text"
+                        id="name"
+                        value={name}
+                        onChange={(e) => setname(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="detail">Detail:</label>
+                    <textarea
+                        id="detail"
+                        value={detail}
+                        onChange={(e) => setdetail(e.target.value)}
+                        rows="5"
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="image">Image:</label>
+                    <input type="file" className="mb-3" id="image" onChange={handleImageChange} />
+                    {previewImage && (
+                        <img src={previewImage} alt="Preview" width="100" />
+                    )}
+                </div>
+                <button type="submit" className='btn btn-primary'>Submit</button>
+            </form>
+        </>
     );
 };
 
