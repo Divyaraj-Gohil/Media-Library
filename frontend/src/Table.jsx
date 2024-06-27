@@ -18,7 +18,7 @@ const Table = ({ data, onUpdate, onDelete }) => {
         }
 
         try {
-            const response = await axios.put(`http://localhost:4000/update/${edit}`, formData, {
+            const response = await axios.put(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -61,7 +61,7 @@ const Table = ({ data, onUpdate, onDelete }) => {
                             <td>{item.name}</td>
                             <td>{item.detail}</td>
                             <td>
-                                <img src={`http://localhost:4000/images/` + item.image} width="100" />
+                                <img src={`https://mern-image-upload-n1qj.onrender.com/images/` + item.image} width="100" />
                             </td>
                             <td>
                                 <button className='btn btn-warning' onClick={() => setedit(item._id)}>edit</button>
