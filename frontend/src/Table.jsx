@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Table = ({ data, onUpdate, onDelete }) => {
     const [edit, setedit] = useState(-1)
-    const [name, setname] = useState('');
-    const [detail, setdetail] = useState('');
-    const [image, setImage] = useState(null);
+    const [name, setname] = useState();
+    const [detail, setdetail] = useState();
+    const [image, setImage] = useState();
 
     const handledit = async (e) => {
 
@@ -18,7 +18,7 @@ const Table = ({ data, onUpdate, onDelete }) => {
         }
 
         try {
-            const response = await axios.put(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, formData, {
+            const response = await axios.patch(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -35,6 +35,9 @@ const Table = ({ data, onUpdate, onDelete }) => {
             // Handle errors appropriately, e.g., display an error message to the user
         }
     };
+    const handlecancel = () => {
+        setedit(-1)
+    }
 
     return (
         <table className='table table-hover'>
@@ -50,10 +53,11 @@ const Table = ({ data, onUpdate, onDelete }) => {
                 {data.map((item) => {
                     return item._id === edit ?
                         (<tr key={item._id}>
-                            <td><input type="text" onChange={e => setname(e.target.value)} /></td>
-                            <td><input type="text" onChange={e => setdetail(e.target.value)} /></td>
+                            <td><input type="text" defaultValue={item.name} onChange={e => setname(e.target.value)} /></td>
+                            <td><input type="text" defaultValue={item.detail} onChange={e => setdetail(e.target.value)} /></td>
                             <td><input type="file" onChange={e => setImage(e.target.files[0])} /></td>
                             <button className='btn btn-warning' onClick={handledit}>Update</button>
+                            <button className='btn btn-warning' onClick={handlecancel}>Cancel</button>
                         </tr>
 
                         ) :

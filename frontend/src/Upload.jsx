@@ -32,7 +32,9 @@ const Upload = ({ onAddData }) => {
             setname('');
             setdetail('');
             setImage(null);
-            setPreviewImage(null); // Clear form after successful submission
+            setPreviewImage(null);
+            e.target.reset()
+            // Clear form after successful submission
         } catch (err) {
             console.error(err);
             // Handle errors appropriately, e.g., display an error message to the user

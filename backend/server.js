@@ -37,9 +37,11 @@ app.get('/', (req, res) => {
         .then(result => res.status(200).send(result))
         .catch(err => console.log(err))
 })
-app.put('/update/:id', upload.single('image'), async (req, res) => {
+app.patch('/update/:id', upload.single('image'), async (req, res) => {
+    const update = req.body
     const old = await UserModel.findById({ _id: req.params.id })
-    const upd = await UserModel.findOneAndUpdate({ _id: req.params.id }, { $set: { name: req.body.name, detail: req.body.detail, image: req.file.filename } }, { new: true })
+    const upd = await UserModel.findOneAndUpdate({ _id: req.params.id }, { $set: update }, { new: true })
+    if (!upd) res.status(404).send("error in update")
     res.send(upd)
     try {
         const imgpath = `./public/images/${old.image}`
