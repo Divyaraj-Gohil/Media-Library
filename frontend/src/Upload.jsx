@@ -23,7 +23,7 @@ const Upload = ({ onAddData }) => {
             formData.append('image', image);
         }
         try {//https://mern-image-upload-n1qj.onrender.com
-            const response = await axios.post('https://mern-image-upload-n1qj.onrender.com/upload', formData, {
+            const response = await axios.post('http://localhost:4000/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
