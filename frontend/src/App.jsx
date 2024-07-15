@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:4000');
+      const response = await axios.get('https://mern-image-upload-n1qj.onrender.com');
       setData(response.data);
     };
     fetchData();
@@ -30,7 +30,7 @@ function App() {
     try {
       toast.info('deleted')
       setData((prevData) => prevData.filter((item) => item._id !== id));
-      await axios.delete(`http://localhost:4000/delete/${id}`);
+      await axios.delete(`https://mern-image-upload-n1qj.onrender.com/delete/${id}`);
 
     } catch (error) {
       console.log(error)
