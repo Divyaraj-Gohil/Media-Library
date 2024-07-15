@@ -39,7 +39,7 @@ app.get('/', async (req, res) => {
 app.put('/update/:id', upload.single('image'), async (req, res) => {
     const update = {}
     if (req.body.name) update.name = req.body.name
-    if (req.body.detail) update.name = req.body.detail
+    if (req.body.detail) update.detail = req.body.detail
     if (req.file) update.image = req.file.filename
     if (Object.keys(update).length === 0 && !req.file) {
         return res.status(400).send({ message: "fill atleast one field for update" })
