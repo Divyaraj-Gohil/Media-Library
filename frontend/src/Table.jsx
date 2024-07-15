@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Table = ({ data, onUpdate, onDelete }) => {
@@ -11,19 +12,18 @@ const Table = ({ data, onUpdate, onDelete }) => {
     const handledit = async (e) => {
 
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('detail', detail);
-        if (image) {
-            formData.append('image', image);
-        }
+        if (name) formData.append('name', name);
+        if (detail) formData.append('detail', detail);
+        if (image) formData.append('image', image);
 
         try {
-            const response = await axios.put(`http://localhost:4000/update/${edit}`, formData, {
+            const res = await axios.put(`http://localhost:4000/update/${edit}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            onUpdate(response.data)
+
+            onUpdate(res.data)
             // Call parent function to update data locally
             // setname('');
             // setdetail('');
@@ -31,7 +31,8 @@ const Table = ({ data, onUpdate, onDelete }) => {
             setedit(-1)
             // Clear form after successful submission
         } catch (err) {
-            console.error(err);
+            toast.error('fill atleast one field for update')
+            if (err.response.data.message) setedit(-1)
             // Handle errors appropriately, e.g., display an error message to the user
         }
     };

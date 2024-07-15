@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     name: String,
     detail: String,
-    image: String
-})
-const UserModel = mongoose.model("user", UserSchema)
+    image: String,
+}, { timestamps: true })
+const UserModel = mongoose.model("image", UserSchema)
 export default UserModel
