@@ -18,7 +18,7 @@ const Table = ({ data, onUpdate, onDelete }) => {
         }
 
         try {
-            const response = await axios.put(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, formData, {
+            const response = await axios.put(`http://localhost:4000/update/${edit}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
