@@ -28,7 +28,7 @@ const Table = ({ data, onUpdate, onDelete }) => {
             if (name) ob.name = name
             if (detail) ob.detail = detail
             if (ob === null) console.log("null", ob)
-            const res = await axios.put(`http://localhost:4000/update/${edit}`, ob);
+            const res = await axios.put(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, ob);
 
             onUpdate(res.data)
             setedit(-1)

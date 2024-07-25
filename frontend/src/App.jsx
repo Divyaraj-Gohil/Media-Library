@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Buffer } from 'buffer'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -11,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('http://localhost:4000');
+      const response = await axios.get('https://mern-image-upload-n1qj.onrender.com');
       setData(response.data);
     };
     fetchData();
@@ -38,7 +37,7 @@ function App() {
       //   }
       // })
       // console.log(cldel)
-      await axios.delete(`http://localhost:4000/delete/${id}`);
+      await axios.delete(`https://mern-image-upload-n1qj.onrender.com/delete/${id}`);
 
     } catch (error) {
       console.log(error)

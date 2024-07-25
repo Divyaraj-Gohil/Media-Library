@@ -35,7 +35,7 @@ const Upload = ({ onAddData }) => {
                 detail: detail,
                 image: clouddata
             }
-            const response = await axios.post('http://localhost:4000/upload', ob);
+            const response = await axios.post('https://mern-image-upload-n1qj.onrender.com/upload', ob);
             onAddData(response.data); // Call parent function to update data locally
             setisload(false)
             setname('');
