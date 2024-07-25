@@ -10,30 +10,31 @@ const Table = ({ data, onUpdate, onDelete }) => {
     const [image, setImage] = useState();
 
     const handledit = async (e) => {
-
-        const formData = new FormData();
-        if (name) formData.append('name', name);
-        if (detail) formData.append('detail', detail);
-        if (image) formData.append('image', image);
-
-        try {
-            const res = await axios.put(`https://mern-image-upload-n1qj.onrender.com/update/${edit}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+        const ob = {}
+        try {//https://mern-image-upload-n1qj.onrender.com
+            if (image) {
+                const formData = new FormData();
+                formData.append('file', image)
+                formData.append('upload_preset', 'imagecloud');
+                formData.append('cloud_name', 'dte2qkwtg');
+                const cloudres = await axios.post('https://api.cloudinary.com/v1_1/dte2qkwtg/image/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                const clouddata = await cloudres.data.url
+                ob.image = clouddata
+            }
+            if (name) ob.name = name
+            if (detail) ob.detail = detail
+            if (ob === null) console.log("null", ob)
+            const res = await axios.put(`http://localhost:4000/update/${edit}`, ob);
 
             onUpdate(res.data)
-            // Call parent function to update data locally
-            // setname('');
-            // setdetail('');
-            // setImage(null);
             setedit(-1)
-            // Clear form after successful submission
         } catch (err) {
             toast.error('fill atleast one field for update')
             if (err.response.data.message) setedit(-1)
-            // Handle errors appropriately, e.g., display an error message to the user
         }
     };
     const handlecancel = () => {
@@ -66,11 +67,11 @@ const Table = ({ data, onUpdate, onDelete }) => {
                             <td>{item.name}</td>
                             <td>{item.detail}</td>
                             <td>
-                                <img src={`https://mern-image-upload-n1qj.onrender.com/images/` + item.image} width="100" />
+                                <img src={item.image} width="100" />
                             </td>
                             <td>
                                 <button className='btn btn-warning' onClick={() => setedit(item._id)}>edit</button>
-                                <button className='btn btn-danger' onClick={() => onDelete(item._id)}>Delete</button>
+                                <button className='btn btn-danger' onClick={() => onDelete(item._id, item.image)}>Delete</button>
                             </td>
                         </tr>
                 }

@@ -6,36 +6,46 @@ const Upload = ({ onAddData }) => {
     const [name, setname] = useState('');
     const [detail, setdetail] = useState('');
     const [image, setImage] = useState(null);
+    const [isload, setisload] = useState(false)
     const [previewImage, setPreviewImage] = useState(null); // State for previewing selected image
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setisload(true)
         if (!name.trim()) {
             alert('Please enter a name.');
             return; // Prevent submission if name is empty
         }
 
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('detail', detail);
-        if (image) {
-            formData.append('image', image);
-        }
+        formData.append('file', image)
+        formData.append('upload_preset', 'imagecloud');
+        formData.append('cloud_name', 'dte2qkwtg');
+
         try {//https://mern-image-upload-n1qj.onrender.com
-            const response = await axios.post('https://mern-image-upload-n1qj.onrender.com/upload', formData, {
+
+            const cloudres = await axios.post('https://api.cloudinary.com/v1_1/dte2qkwtg/image/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
+            })
+            const clouddata = await cloudres.data.url
+            const ob = {
+                name: name,
+                detail: detail,
+                image: clouddata
+            }
+            const response = await axios.post('http://localhost:4000/upload', ob);
             onAddData(response.data); // Call parent function to update data locally
+            setisload(false)
             setname('');
             setdetail('');
             setImage(null);
             setPreviewImage(null);
             e.target.reset()
-            // Clear form after successful submission
-        } catch (err) {
+        }
+        // Clear form after successful submission
+        catch (err) {
             console.error(err);
             // Handle errors appropriately, e.g., display an error message to the user
         }
@@ -49,8 +59,8 @@ const Upload = ({ onAddData }) => {
         }
 
         if (!selectedImage.type.match('image/.*')) {
-            alert('Please select an image file.');
-            return; // Prevent non-image files
+            alert('Please select an image file.')
+            return// Prevent non-image files
         }
 
         setImage(selectedImage);
@@ -60,7 +70,7 @@ const Upload = ({ onAddData }) => {
     return (
         <>
             <form onSubmit={handleSubmit} className='p-4'>
-                <div className="form-group">
+                <div className="">
                     <label htmlFor="name">Name:</label>
                     <input className='mb-3'
                         type="text"
@@ -70,7 +80,7 @@ const Upload = ({ onAddData }) => {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="">
                     <label htmlFor="detail">Detail:</label>
                     <textarea
                         id="detail"
@@ -79,14 +89,16 @@ const Upload = ({ onAddData }) => {
                         rows="5"
                     />
                 </div>
-                <div className="form-group">
+                <div className="p">
                     <label htmlFor="image">Image:</label>
                     <input type="file" className="mb-3" id="image" onChange={handleImageChange} />
                     {previewImage && (
                         <img src={previewImage} alt="Preview" width="100" />
                     )}
                 </div>
-                <button type="submit" className='btn btn-primary'>Submit</button>
+                <button type="submit" className='btn btn-primary'>
+                    {isload ? 'Please wait...' : 'Submit'}
+                </button>
             </form>
         </>
     );

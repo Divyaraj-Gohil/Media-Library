@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { Buffer } from 'buffer'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -10,7 +11,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('https://mern-image-upload-n1qj.onrender.com');
+      const response = await axios.get('http://localhost:4000');
       setData(response.data);
     };
     fetchData();
@@ -26,11 +27,18 @@ function App() {
     setData((prevData) => prevData.map((item) => item._id === updatedData._id ? updatedData : item))
   };
 
-  const handleDataDelete = async (id) => {
+  const handleDataDelete = async (id, img) => {
     try {
       toast.info('deleted')
       setData((prevData) => prevData.filter((item) => item._id !== id));
-      await axios.delete(`https://mern-image-upload-n1qj.onrender.com/delete/${id}`);
+
+      // const cldel = await axios.delete(`https://cors-anywhere.herokuapp.com/https://api.cloudinary.com/v1_1/dte2qkwtg/image/${publicId}`, {
+      //   headers: {
+      //     Authorization: `Basic ${Buffer.from(`321518439611524:voyDKXEzyEpjUkKQWA-xtjuNnMA`).toString('base64')}`
+      //   }
+      // })
+      // console.log(cldel)
+      await axios.delete(`http://localhost:4000/delete/${id}`);
 
     } catch (error) {
       console.log(error)
@@ -40,7 +48,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer position="top-center" theme="dark" />
-      <h1>CRUD App with Image Upload</h1>
+      <h3>CRUD App with Image Upload + Cloudinary</h3>
       <Upload onAddData={handleDataChange} />
       <hr />
       <Table data={data} onUpdate={handleDataUpdate} onDelete={handleDataDelete} />
