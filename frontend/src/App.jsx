@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('https://mern-image-upload-n1qj.onrender.com');
+      const response = await axios.get('https://media-library-flame.vercel.app');
       setData(response.data);
     };
     fetchData();
@@ -37,7 +37,7 @@ function App() {
       //   }
       // })
       // console.log(cldel)
-      await axios.delete(`https://mern-image-upload-n1qj.onrender.com/delete/${id}`);
+      await axios.delete(`https://media-library-flame.vercel.app/delete/${id}`);
 
     } catch (error) {
       console.log(error)
@@ -47,7 +47,7 @@ function App() {
   return (
     <div className="App">
       <ToastContainer position="top-center" theme="dark" />
-      <h3>CRUD App with Image Upload + Cloudinary</h3>
+      <h3>CRUD App with Images + Cloudinary</h3>
       <Upload onAddData={handleDataChange} />
       <hr />
       <Table data={data} onUpdate={handleDataUpdate} onDelete={handleDataDelete} />

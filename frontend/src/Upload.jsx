@@ -35,7 +35,7 @@ const Upload = ({ onAddData }) => {
                 detail: detail,
                 image: clouddata
             }
-            const response = await axios.post('https://mern-image-upload-n1qj.onrender.com/upload', ob);
+            const response = await axios.post('https://media-library-flame.vercel.app/upload', ob);
             onAddData(response.data); // Call parent function to update data locally
             setisload(false)
             setname('');
@@ -70,9 +70,10 @@ const Upload = ({ onAddData }) => {
     return (
         <>
             <form onSubmit={handleSubmit} className='p-4'>
+                <div className=''></div>
                 <div className="">
                     <label htmlFor="name">Name:</label>
-                    <input className='mb-3'
+                    <input className='mb-3 mx-3'
                         type="text"
                         id="name"
                         value={name}
@@ -80,9 +81,10 @@ const Upload = ({ onAddData }) => {
                         required
                     />
                 </div>
-                <div className="">
+                <div className=" mb-3">
                     <label htmlFor="detail">Detail:</label>
                     <textarea
+                        className='mx-3'
                         id="detail"
                         value={detail}
                         onChange={(e) => setdetail(e.target.value)}
@@ -91,7 +93,7 @@ const Upload = ({ onAddData }) => {
                 </div>
                 <div className="p">
                     <label htmlFor="image">Image:</label>
-                    <input type="file" className="mb-3" id="image" onChange={handleImageChange} />
+                    <input type="file" className="mx-3 mb-3" id="image" onChange={handleImageChange} />
                     {previewImage && (
                         <img src={previewImage} alt="Preview" width="100" />
                     )}
